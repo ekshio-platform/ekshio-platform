@@ -1,0 +1,172 @@
+
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102b24">
+<title>EKSHIO — একসাথে এগিয়ে চলুন</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;color:#182923;background:#f5f7f4}
+*{box-sizing:border-box}
+body{margin:0}
+header{background:#102b24;color:white;padding:24px 18px 28px}
+.wrap{max-width:760px;margin:auto}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font-size:27px;font-weight:850;letter-spacing:1px}
+.tag{font-size:13px;color:#c9ded2;margin-top:3px}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.lang{border:1px solid #729084;background:transparent;color:white;padding:8px 12px;border-radius:10px}
+h1{font-size:26px;line-height:1.45;margin:25px 0 7px}
+.intro{color:#d3e4dc;line-height:1.7;margin:0}
+main{max-width:760px;margin:auto;padding:18px 14px 40px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:20px}
+.stat,.panel,.item{background:white;border:1px solid #e1e9e3;border-radius:15px;padding:14px}
+.stat strong{display:block;font-size:23px;color:#176a4c}
+.stat span{font-size:12px;color:#5e7066}
+h2{font-size:19px;margin:0 0 13px}
+.panel{margin-bottom:15px}
+label{display:block;font-size:13px;font-weight:650;margin:11px 0 6px}
+input,select{width:100%;padding:12px;border:1px solid #ccd8cf;border-radius:10px;background:white;color:#182923}
+input:focus,select:focus{outline:2px solid #74b89a;outline-offset:1px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.primary{border:0;background:#176a4c;color:white;border-radius:10px;padding:12px 16px;font-weight:700}
+.full{width:100%;margin-top:13px}
+.tools{display:grid;grid-template-columns:1fr 140px;gap:9px;margin-bottom:13px}
+.item{margin-bottom:10px}
+.itemtop{display:flex;justify-content:space-between;gap:10px;align-items:start}
+.item h3{font-size:16px;margin:0 0 5px;overflow-wrap:anywhere}
+.meta{font-size:12px;color:#607168;line-height:1.7}
+.pill{font-size:11px;background:#e8f4ec;color:#176a4c;padding:4px 8px;border-radius:20px;white-space:nowrap}
+.item a{display:inline-block;margin-top:8px;color:#176a4c;overflow-wrap:anywhere}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.small{border:1px solid #ccd8cf;background:white;border-radius:9px;padding:8px 10px;font-size:12px;color:#203b2e}
+.danger{color:#a33333}
+.empty{text-align:center;padding:24px 12px;color:#617168;line-height:1.7}
+.note{font-size:12px;color:#617168;line-height:1.7}
+footer{text-align:center;color:#617168;font-size:12px;padding:18px}
+[hidden]{display:none!important}
+@media(max-width:430px){.fields{grid-template-columns:1fr}.tools{grid-template-columns:1fr 115px}h1{font-size:23px}.stat{padding:11px 8px}.stat span{font-size:11px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div><div class="brand">EKSHIO</div><div class="tag" data-i="tag">একসাথে সুযোগ খুঁজি, এগিয়ে যাই</div></div>
+      <button class="lang" id="langBtn" type="button">English</button>
+    </div>
+    <h1 data-i="headline">আপনার পরবর্তী সুযোগ, এক জায়গায়।</h1>
+    <p class="intro" data-i="intro">চাকরি, বৃত্তি, ভর্তি ও প্রশিক্ষণের তথ্য গুছিয়ে রাখুন। নিজের অগ্রগতি নিজেই ট্র্যাক করুন।</p>
+  </div>
+</header>
+<main>
+  <section class="stats" aria-label="সুযোগের পরিসংখ্যান">
+    <div class="stat"><strong id="total">0</strong><span data-i="totalLabel">মোট সুযোগ</span></div>
+    <div class="stat"><strong id="active">0</strong><span data-i="activeLabel">চলমান</span></div>
+    <div class="stat"><strong id="done">0</strong><span data-i="doneLabel">সম্পন্ন</span></div>
+  </section>
+
+  <section class="panel">
+    <h2 data-i="addTitle">＋ নিজের সুযোগ যোগ করুন</h2>
+    <form id="addForm">
+      <label for="title" data-i="titleLabel">সুযোগের নাম *</label>
+      <input id="title" maxlength="120" required placeholder="যেমন: প্রশিক্ষণ বা চাকরির নাম">
+      <div class="fields">
+        <div><label for="category" data-i="categoryLabel">ধরন</label>
+          <select id="category">
+            <option value="চাকরি" data-i="job">চাকরি</option>
+            <option value="বৃত্তি" data-i="scholarship">বৃত্তি</option>
+            <option value="ভর্তি" data-i="admission">ভর্তি</option>
+            <option value="প্রশিক্ষণ" data-i="training">প্রশিক্ষণ</option>
+            <option value="অন্যান্য" data-i="other">অন্যান্য</option>
+          </select>
+        </div>
+        <div><label for="deadline" data-i="deadlineLabel">শেষ তারিখ (ঐচ্ছিক)</label><input id="deadline" type="date"></div>
+      </div>
+      <label for="url" data-i="urlLabel">তথ্যের লিংক (ঐচ্ছিক)</label>
+      <input id="url" type="url" placeholder="https://...">
+      <label for="source" data-i="sourceLabel">উৎস/প্রতিষ্ঠানের নাম (ঐচ্ছিক)</label>
+      <input id="source" maxlength="120" placeholder="যেমন: প্রতিষ্ঠানের নাম">
+      <button class="primary full" type="submit" data-i="addButton">＋ সুযোগ সংরক্ষণ করুন</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2 data-i="listTitle">আপনার সুযোগসমূহ</h2>
+    <div class="tools">
+      <input id="search" type="search" data-ph="searchPH" placeholder="নাম বা প্রতিষ্ঠান দিয়ে খুঁজুন">
+      <select id="filter" aria-label="Filter">
+        <option value="all" data-i="all">সব অবস্থা</option>
+        <option value="active" data-i="inProgress">চলমান</option>
+        <option value="done" data-i="completed">সম্পন্ন</option>
+      </select>
+    </div>
+    <div id="items"></div>
+    <p class="note" data-i="privacy">আপনার যোগ করা তথ্য এই ব্রাউজারেই সংরক্ষিত হয়। অন্য ডিভাইসে নিজে থেকে সিঙ্ক হয় না। ব্রাউজারের ডেটা মুছে ফেললে তথ্য হারাতে পারে।</p>
+  </section>
+  <footer>EKSHIO · <span data-i="footer">প্রথম সংস্করণ · কাজ চলছে</span></footer>
+</main>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const key="ekshio-opportunities-v1";
+let lang="bn",items=[];
+try{items=JSON.parse(localStorage.getItem(key)||"[]");if(!Array.isArray(items))items=[]}catch(e){items=[]}
+const words={
+bn:{tag:"একসাথে সুযোগ খুঁজি, এগিয়ে যাই",headline:"আপনার পরবর্তী সুযোগ, এক জায়গায়।",intro:"চাকরি, বৃত্তি, ভর্তি ও প্রশিক্ষণের তথ্য গুছিয়ে রাখুন। নিজের অগ্রগতি নিজেই ট্র্যাক করুন.",totalLabel:"মোট সুযোগ",activeLabel:"চলমান",doneLabel:"সম্পন্ন",addTitle:"＋ নিজের সুযোগ যোগ করুন",titleLabel:"সুযোগের নাম *",categoryLabel:"ধরন",job:"চাকরি",scholarship:"বৃত্তি",admission:"ভর্তি",training:"প্রশিক্ষণ",other:"অন্যান্য",deadlineLabel:"শেষ তারিখ (ঐচ্ছিক)",urlLabel:"তথ্যের লিংক (ঐচ্ছিক)",sourceLabel:"উৎস/প্রতিষ্ঠানের নাম (ঐচ্ছিক)",addButton:"＋ সুযোগ সংরক্ষণ করুন",listTitle:"আপনার সুযোগসমূহ",searchPH:"নাম বা প্রতিষ্ঠান দিয়ে খুঁজুন",all:"সব অবস্থা",inProgress:"চলমান",completed:"সম্পন্ন",privacy:"আপনার যোগ করা তথ্য এই ব্রাউজারেই সংরক্ষিত হয়। অন্য ডিভাইসে নিজে থেকে সিঙ্ক হয় না। ব্রাউজারের ডেটা মুছে ফেললে তথ্য হারাতে পারে।",footer:"প্রথম সংস্করণ · কাজ চলছে",empty:"এখনো কোনো সুযোগ যোগ করা হয়নি। উপরের ফর্ম দিয়ে প্রথমটি যোগ করুন।",source:"উৎস",deadline:"শেষ তারিখ",markDone:"সম্পন্ন করুন",markActive:"চলমান করুন",delete:"মুছুন",confirm:"এই সুযোগটি মুছে ফেলবেন?",invalidUrl:"লিংকটি https:// বা http:// দিয়ে শুরু করুন।",saved:"সুযোগ সংরক্ষিত হয়েছে।"},
+en:{tag:"Discover opportunities. Move forward together.",headline:"Your next opportunity, in one place.",intro:"Organize jobs, scholarships, admissions and training. Track your own progress.",totalLabel:"Total",activeLabel:"In progress",doneLabel:"Completed",addTitle:"＋ Add an opportunity",titleLabel:"Opportunity name *",categoryLabel:"Category",job:"Job",scholarship:"Scholarship",admission:"Admission",training:"Training",other:"Other",deadlineLabel:"Deadline (optional)",urlLabel:"Source link (optional)",sourceLabel:"Source or organization (optional)",addButton:"＋ Save opportunity",listTitle:"Your opportunities",searchPH:"Search name or organization",all:"All statuses",inProgress:"In progress",completed:"Completed",privacy:"Your entries are saved in this browser only. They do not sync to other devices. Clearing browser data may remove them.",footer:"First version · In progress",empty:"No opportunities yet. Add your first one using the form above.",source:"Source",deadline:"Deadline",markDone:"Mark complete",markActive:"Mark in progress",delete:"Delete",confirm:"Delete this opportunity?",invalidUrl:"Please use a link starting with https:// or http://.",saved:"Opportunity saved."}
+};
+function save(){try{localStorage.setItem(key,JSON.stringify(items));return true}catch(e){alert("এই ব্রাউজারে তথ্য সংরক্ষণ করা যায়নি। জায়গা খালি করে আবার চেষ্টা করুন।");return false}}
+function text(k){return words[lang][k]||k}
+function safeUrl(raw){try{const u=new URL(raw);return ["http:","https:"].includes(u.protocol)?u.href:""}catch(e){return ""}}
+function render(){
+$("total").textContent=items.length;
+$("active").textContent=items.filter(x=>!x.done).length;
+$("done").textContent=items.filter(x=>x.done).length;
+const q=$("search").value.trim().toLowerCase(),f=$("filter").value;
+const shown=items.filter(x=>(f==="all"||(f==="done"?x.done:!x.done))&&[x.title,x.category,x.source].join(" ").toLowerCase().includes(q));
+const box=$("items");box.replaceChildren();
+if(!shown.length){const p=document.createElement("div");p.className="empty";p.textContent=text("empty");box.append(p);return}
+shown.forEach(x=>{
+const card=document.createElement("article");card.className="item";
+const top=document.createElement("div");top.className="itemtop";
+const left=document.createElement("div"),h=document.createElement("h3"),meta=document.createElement("div"),pill=document.createElement("span");
+h.textContent=x.title;meta.className="meta";
+meta.textContent=x.category+(x.deadline?" · "+text("deadline")+": "+x.deadline:"")+(x.source?" · "+text("source")+": "+x.source:"");
+pill.className="pill";pill.textContent=x.done?text("completed"):text("inProgress");
+left.append(h,meta);top.append(left,pill);card.append(top);
+if(x.url){const a=document.createElement("a");a.href=x.url;a.target="_blank";a.rel="noopener noreferrer";a.textContent=x.url;card.append(a)}
+const actions=document.createElement("div");actions.className="actions";
+const toggle=document.createElement("button");toggle.type="button";toggle.className="small";toggle.textContent=x.done?text("markActive"):text("markDone");
+toggle.addEventListener("click",()=>{x.done=!x.done;save();render()});
+const del=document.createElement("button");del.type="button";del.className="small danger";del.textContent=text("delete");
+del.addEventListener("click",()=>{if(confirm(text("confirm"))){items=items.filter(y=>y.id!==x.id);save();render()}});
+actions.append(toggle,del);card.append(actions);box.append(card)
+})
+}
+function setLang(next){
+lang=next;document.documentElement.lang=lang;
+document.querySelectorAll("[data-i]").forEach(el=>{const k=el.dataset.i;if(words[lang][k])el.textContent=words[lang][k]});
+document.querySelectorAll("[data-ph]").forEach(el=>el.placeholder=text(el.dataset.ph));
+$("langBtn").textContent=lang==="bn"?"English":"বাংলা";
+render()
+}
+$("langBtn").addEventListener("click",()=>setLang(lang==="bn"?"en":"bn"));
+$("search").addEventListener("input",render);
+$("filter").addEventListener("change",render);
+$("addForm").addEventListener("submit",e=>{
+e.preventDefault();
+const title=$("title").value.trim(),raw=$("url").value.trim(),url=raw?safeUrl(raw):"";
+if(!title)return;
+if(raw&&!url){alert(text("invalidUrl"));return}
+const x={id:Date.now().toString()+"-"+Math.random().toString(36).slice(2,7),title,category:$("category").value,deadline:$("deadline").value,source:$("source").value.trim(),url,done:false};
+items.unshift(x);
+if(save()){$("addForm").reset();render();alert(text("saved"))}else{items.shift()}
+});
+render();
+})();
+</script>
+</body>
+</html>
