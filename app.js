@@ -298,6 +298,65 @@ $("addForm").addEventListener("submit", e => {
   }
 });
 
+const backupBox = document.createElement("section");
+backupBox.style.cssText = "padding:16px;margin:20px 0;border:1px solid #aaa;border-radius:12px;";
+backupBox.innerHTML = `
+  <h3>Data Backup / ডেটা ব্যাকআপ</h3>
+  <p>Save your opportunities safely / আপনার Opportunity ব্যাকআপ রাখুন।</p>
+  <button type="button" id="exportBackup">Download Backup</button>
+  <button type="button" id="importBackup">Restore Backup</button>
+  <input type="file" id="backupFile" accept=".json,application/json" hidden>
+`;
+document.body.appendChild(backupBox);
+
+$("exportBackup").addEventListener("click", function(){
+  const file = new Blob(
+    [JSON.stringify(items, null, 2)],
+    {type:"application/json"}
+  );
+  const url = URL.createObjectURL(file);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "ekshio-opportunities-backup.json";
+  link.click();
+  URL.revokeObjectURL(url);
+});
+
+$("importBackup").addEventListener("click", function(){
+  $("backupFile").click();
+});
+
+$("backupFile").addEventListener("change", function(event){
+  const file = event.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(){
+    try{
+      const data = JSON.parse(reader.result);
+      if(!Array.isArray(data)){
+        throw new Error("Invalid backup");
+      }
+
+      const oldItems = items;
+      items = data;
+
+      if(saveItems()){
+        render();
+        alert("Backup restored successfully!");
+      }else{
+        items = oldItems;
+        render();
+        alert("Could not save backup. Existing data was preserved.");
+      }
+    }catch(error){
+      alert("Invalid backup file. Existing data was not changed.");
+    }
+    event.target.value = "";
+  };
+  reader.readAsText(file);
+});
+
 loadItems();
 setLang("bn");
 
