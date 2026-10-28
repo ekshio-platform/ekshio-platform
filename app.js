@@ -356,10 +356,54 @@ $("backupFile").addEventListener("change", function(event){
   };
   reader.readAsText(file);
 });
+async function loadSharedItems() {
+  const supabaseUrl = "https://vdihwxikxgwxmzrewqwl.supabase.co";
+  const publishableKey = "sb_publishable_mYEzsvPL5jUX2iw6oOOGTA_-6gLelgZ"
 
+  try {
+    const response = await fetch(
+      supabaseUrl +
+        "/rest/v1/opportunities?select=id,title,category,url,deadline,source,done&order=id.desc",
+      {
+        headers: {
+          apikey: publishableKey
+        }
+      }
+    );
+
+    if (!response.ok) {
+      console.error("EKSHIO shared data error:", await response.text());
+      return;
+    }
+
+    const rows = await response.json();
+
+    rows.forEach(function (row) {
+      const sharedItem = {
+        id: "db-" + row.id,
+        title: row.title || "",
+        category: row.category || "other",
+        deadline: row.deadline || "",
+        source: row.source || "",
+        url: row.url || "",
+        done: row.done === true
+      };
+
+      if (!items.some(function (item) {
+        return String(item.id) === sharedItem.id;
+      })) {
+        items.push(sharedItem);
+      }
+    });
+
+    render();
+  } catch (error) {
+    console.error("EKSHIO connection error:", error);
+  }
+}
 loadItems();
 setLang("bn");
-
+loadSharedItems();
 if(!storageAvailable){
   showMessage(t("storageError"));
 }
